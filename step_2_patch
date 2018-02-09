@@ -1,0 +1,102 @@
+1.Create a new file sample.c
+---------------------------
+#include<stdio.h>
+void main()
+{
+	printf("%s","Hello");
+}
+---------------------------
+2.Create a another file sample_new.c
+---------------------------
+#include<stdio.h>
+void main()
+{
+	printf("%s","Hello");
+	printf("Add new line");
+	printf("add one more");
+}
+----------------------------
+3.Open Terminal and type
+----------------------------
+$ diff sample.c sample_new.c 
+4a5,6
+> 	printf("Add new line");
+> 	printf("add one more");
+----------------------------
+4.You can use options also
+---------------------------
+$ diff -u sample.c sample_new.c 
+--- sample.c	2018-02-09 12:13:05.789856958 +0530
++++ sample_new.c	2018-02-09 11:47:16.531972283 +0530
+@@ -2,4 +2,6 @@
+ void main()
+ {
+ 	printf("%s","Hello");
++	printf("Add new line");
++	printf("add one more");
+ }
+ ---------------------------
+ ---sample.c indicates that lines are removed from sample.c
+ +++sample_new.c indicates that lines are added in sample_new.c
+ +	printf("Add new line"); indicates that this line is added in sample_new.c  
+ which is provided as second file
+ ---------------------------
+ $ diff -y sample.c sample_new.c 
+#include<stdio.h>						  #include<stdio.h>
+void main()							      void main()
+{								              {
+	printf("%s","Hello");				    printf("%s","Hello");
+							                >		printf("Add new line");
+							                >		printf("add one more");
+}								              }
+------------------------------
+5.Create a patch file
+------------------------------
+$ diff -u sample.c sample_new.c > sample.patch
+------------------------------
+6.You can take a look at patch file sample.patch
+------------------------------
+$ cat sample.patch 
+--- sample.c	2018-02-09 12:13:05.789856958 +0530
++++ sample_new.c	2018-02-09 11:47:16.531972283 +0530
+@@ -2,4 +2,6 @@
+ void main()
+ {
+ 	printf("%s","Hello");
++	printf("Add new line");
++	printf("add one more");
+ }
+------------------------------
+7.Apply a patch to file sample.c
+------------------------------
+$ patch < sample.patch 
+patching file sample.c
+------------------------------
+8.take a look changes made in sample.c
+------------------------------
+$ cat sample.c
+#include<stdio.h>
+void main()
+{
+	printf("%s","Hello");
+	printf("Add new line");
+	printf("add one more");
+}
+------------------------------
+9.You can take a backup of your original file sample.c before applying patch
+this ccommand creates new file "sample.c.orig", which is replica of sample.c before applying patch
+------------------------------
+$ patch -b sample.c sample.patch 
+patching file sample.c
+-------------------------------
+$ cat sample.c.orig 
+#include<stdio.h>
+void main()
+{
+	printf("%s","Hello");
+}
+------------------------------
+Thanks! Happy reading :)
+
+
+ 
